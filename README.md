@@ -1,1 +1,1 @@
-# sparcChallenge
+# SparcChallenge
