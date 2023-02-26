@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPARC CHALLENGE", "SPARC CHALLENGE\SPARC CHALLENGE.csproj", "{BB7F3481-3CCA-46FF-BD7A-86A26803A531}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB7F3481-3CCA-46FF-BD7A-86A26803A531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB7F3481-3CCA-46FF-BD7A-86A26803A531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB7F3481-3CCA-46FF-BD7A-86A26803A531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB7F3481-3CCA-46FF-BD7A-86A26803A531}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C3F6575-3597-4515-AFB6-A839ADEE46DC}
+	EndGlobalSection
+EndGlobal
