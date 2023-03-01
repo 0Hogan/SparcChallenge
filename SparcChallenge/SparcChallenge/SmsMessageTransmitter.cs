@@ -3,32 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace SparcChallenge
 {
     class SmsMessageTransmitter : MessageTransmitter
     {
-        private string pilotConfirmationMessage = "";
-        private string pilotRejectionMessage = "";
-        private string securityOfficerRejectionMessage = "";
-        private string pilotFailureMessage = "";
+        // Twilio Account Details (Saved in the environment):
+        private string accountSid = "";
+        private string authToken = "";
+        private string sourceNumber = "";
+
+        private string securityOfficerNumber = "";
 
         /// <summary>
         /// Constructor for the SmsMessageTransmitter class. Does nothing by default.
         /// </summary>
-        public SmsMessageTransmitter() { }
-
-        private void SendMessage(string number, string message)
+        public SmsMessageTransmitter() 
         {
-            // @TODO: Clean up the number and format it for Twilio.
-
-
-            // @TODO: Send the given message to the given number.
+            // Get the Twilio API details from the environment.
+            accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+            authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+            sourceNumber = Environment.GetEnvironmentVariable("TWILIO_SOURCE_NUMBER");
 
         }
 
+        private void SendMessage(string number, string messageContents)
+        {
+            // Return if the number is null, as something is wrong. This should probably raise an exception instead.
+            if (number == null)
+                return;
+
+            // Send the given message to the given number.
+            TwilioClient.Init(accountSid, authToken);
+
+            var message = MessageResource.Create(
+                body: messageContents,
+                from: new Twilio.Types.PhoneNumber("+15017122661"),
+                to: new Twilio.Types.PhoneNumber(number)
+            );
+
+        }
+
+        /// <summary>
+        /// Sends a notification to the pilot that their profile has been successfully loaded and that they are authorized to proceed.
+        /// </summary>
+        /// <param name="pilotNumber">The number of the pilot to whom the confirmation message should be sent.</param>
         public void SendConfirmation(string pilotNumber)
         {
+            string pilotConfirmationMessage = "";
             // Notify the pilot that their profile has been successfully loaded and that they are authorized to proceed.
             SendMessage(pilotNumber, pilotConfirmationMessage);
             
@@ -40,8 +64,14 @@ namespace SparcChallenge
         /// </summary>
         /// <param name="pilotNumber">The number (as a string) of the pilot trying to access the aircraft.</param>
         /// <param name="securityOfficerNumber">The number (as a string) of the security officer who should be notified of the unauthorized attempt to access the aircraft.</param>
-        public void SendRejection(string pilotNumber, string securityOfficerNumber)
+        public void SendRejection(string pilotNumber)
         {
+            // Get the current on-duty security officer's phone number.
+            securityOfficerNumber = Environment.GetEnvironmentVariable("ON_DUTY_SECURITY_OFFICER_NUMBER");
+
+            string pilotRejectionMessage = "";
+            string securityOfficerRejectionMessage = "";
+
             // Notify the pilot that their attempt to access the aircraft/mission was rejected and that they are unauthorized.
             SendMessage(pilotNumber, pilotRejectionMessage);
 
@@ -57,6 +87,8 @@ namespace SparcChallenge
         /// <param name="pilotNumber"></param>
         public void SendFailure(string pilotNumber)
         {
+            string pilotFailureMessage = "";
+
             // Notify the pilot that their profile failed to load.
             SendMessage(pilotNumber, pilotFailureMessage);
 
