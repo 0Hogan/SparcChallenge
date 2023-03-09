@@ -7,18 +7,18 @@ namespace SPARC_CHALLENGE
 
     public class ProfileLoader
     {
-        private string pilot;
+        private Pilot pilot;       //create this as a pilot class to reference would hold the lockoutcounter
         private string mission;
         private string aircraft;    // unique aircraft id, specific to each "aircraft" aka computer
-        private LockoutCounter counter;
+  
 
-
-        public ProfileLoader(string pilot, string mission, string aircraft, LockoutCounter counter) //we can either give it a lockout counter or have it create a lockout counter
+        
+        public ProfileLoader(Pilot pilot, string mission, string aircraft) //we can either give it a lockout counter or have it create a lockout counter
         {
             this.pilot = pilot;
             this.mission = mission;
             this.aircraft = aircraft;
-            this.counter = counter;
+
         }
 
         public static bool Authorized(ProfileLoader profile)
@@ -39,7 +39,7 @@ namespace SPARC_CHALLENGE
                 string objMission = obj.Value<string>("mission");
 
                 // Check if there is a match
-                if (objAircraft == profile.aircraft && objName == profile.pilot && objMission == profile.mission)
+                if (objAircraft == profile.aircraft && objName == profile.pilot.pilot && objMission == profile.mission)
                 {
                     return true;
                 }
@@ -53,34 +53,54 @@ namespace SPARC_CHALLENGE
         {
 
 
-            //check that this is the target Aircraft being requested
-            if (this.aircraft == AC.ID)
-            {   //
+ 
 
-
-                if (this.counter.IsLocked)  //locked out of attempts, not authorized to fly.
+            if (this.pilot.counter.IsLocked)  //locked out of attempts, not authorized to fly.
+            {
+                if (AC.Leader)
                 {
-                    Console.WriteLine("locked out in class.");
-                    return;
+                    Console.WriteLine("Not authorized to fly, locked out.");
+                    //notify security officer
+                }
+                
+                return;
                     
-                }
-
-                //if not authorized
-                if ( !Authorized(this))
-                {
-                    counter.Increment(); //not authorized so Increment counter
-                    Console.WriteLine("not authorized to fly.");                 //notify security officer
-                    return;
-                    //exit
-                }
-                else
-                {
-                    counter.Reset();
-                    Console.WriteLine("authorized to fly.");
-                    //load profile
-                }
             }
-            //not for this aircraft so ignore
+
+            //if not authorized
+            if ( !Authorized(this))
+            {
+                    
+                if (AC.Leader)
+                {
+                    //notify security officer
+                    Console.WriteLine("not authorized to fly.");
+                } 
+                                   
+
+                this.pilot.Increment(); //not authorized so Increment counter
+                return;
+                //exit
+            }
+            else
+            {
+                    
+                //if ac == current system then
+                if(AC.Leader == true)
+                {
+                    Console.WriteLine("authorized to fly.");
+                }
+                    
+                //load profile
+                if(AC.ID == this.aircraft)
+                {
+                    Console.WriteLine("FLYING");
+                    //load profile to system
+                }
+                this.pilot.Reset();
+            }
+            
+            
             return;
         }
 

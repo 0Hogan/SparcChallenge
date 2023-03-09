@@ -10,6 +10,15 @@ namespace SPARC_CHALLENGE
     {
         private int counter = 0;
 
+
+
+        public LockoutCounter() { }
+
+        public LockoutCounter(int currentCount)
+        {
+            counter = currentCount;
+        }
+
         /// <summary>
         /// Resets the lockout counter to 0. Should be called when an attempt to load a profile is authorized.
         /// </summary>

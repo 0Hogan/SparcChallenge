@@ -7,7 +7,7 @@ using OfficeOpenXml;
 using System;
 using System.IO;
 using Newtonsoft.Json;
-
+using System.Text.Json;
 
 namespace SPARC_CHALLENGE
 {
@@ -22,13 +22,49 @@ namespace SPARC_CHALLENGE
                 case ".xlsx":
                     return ProcessExcel(filePath);
                     break;
+                case ".csv":
+                    return ProcessCSV(filePath);
+                //add support for csv
                 //add support for other file types here
                 default:
                     throw new ArgumentException($"Unsupported file type: {extension}");
             }
         }
 
-        private static string ProcessExcel(string filePath)
+        private static string ProcessCSV(string filePath)
+        {
+            string[] csvLines = File.ReadAllLines(filePath);
+            //get header row 
+            string[] headers = csvLines[0].Split(',');
+
+            //create list for rows
+            List<Dictionary<string,string>> list = new List<Dictionary<string,string>>();
+
+            //loop through each row
+            for (int i = 1; i < headers.Length; i++)
+            {
+                //split row into fields
+                string[] fields = csvLines[i].Split(',');
+
+                //create dictionary to hold field values
+                Dictionary<string,string> row = new Dictionary<string,string>();
+
+                //loop through each field in row
+                for(int j = 0; j < headers.Length; j++)
+                {
+                    row.Add(headers[j], fields[j]);
+                }
+
+                //add the row to data list
+                list.Add(row);
+            }
+
+            //convert to JSON
+            string json = JsonConvert.SerializeObject(list, Formatting.Indented);
+            return json;
+        }
+
+            private static string ProcessExcel(string filePath)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
