@@ -10,8 +10,15 @@ namespace PilotVerification
     {
         private int counter = 0;
 
+        /// <summary>
+        /// Constructor. Initializes the counter to 0.
+        /// </summary>
         public LockoutCounter() { }
 
+        /// <summary>
+        /// Constructor. Allows the initial value of the counter to be assigned - as in the case when we are loading the value from a file.
+        /// </summary>
+        /// <param name="currentCount"></param>
         public LockoutCounter(int currentCount)
         {
             counter = currentCount;

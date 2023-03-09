@@ -17,8 +17,6 @@ namespace PilotInterface
         private string systemNumber = "";
         private MessageResource? lastMessage = null;
 
-        private string executableFilePath = "";
-
         /// <summary>
         /// Constructor for the SmsMessageReceiver class.
         /// </summary>

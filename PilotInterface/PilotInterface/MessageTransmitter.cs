@@ -8,12 +8,15 @@ namespace PilotVerification
 {
     class MessageTransmitter
     {
+        /// <summary>
+        /// Constructor. Currently does nothing.
+        /// </summary>
         public MessageTransmitter() {}
 
         /// <summary>
         /// Print a specified message to the Console.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message to be sent.</param>
         public virtual void SendMessage(string message)
         {
             Console.WriteLine(message);
