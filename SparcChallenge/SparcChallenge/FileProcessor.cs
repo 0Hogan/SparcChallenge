@@ -64,7 +64,7 @@ namespace SPARC_CHALLENGE
             return json;
         }
 
-            private static string ProcessExcel(string filePath)
+        private static string ProcessExcel(string filePath)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 

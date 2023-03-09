@@ -11,19 +11,19 @@ namespace SPARC_CHALLENGE
     {
         public string pilot;
         public LockoutCounter counter;
-        public Pilot(string pilot) //we can either give it a lockout counter or have it create a lockout counter
+        public Pilot(string pilot, Aircraft AC) //we can either give it a lockout counter or have it create a lockout counter
         {
             this.pilot = pilot; //set pilot
 
-            LoadCounter();   //initialize pilot counter from transient file. 
+            LoadCounter(AC);   //initialize pilot counter from transient file. 
 
         }
 
-        public void LoadCounter()
+        public void LoadCounter(Aircraft AC)
         {
             string jsonholder;
             //read transient file, set value. if value not found then add pilot to list and add increment. 
-            jsonholder = FileProcessor.ProcessFile("C:/Users/micha/Documents/SPARC/TransientPilotInformation.csv"); //this filepath needs to be initialized somehow.
+            jsonholder = FileProcessor.ProcessFile(AC.SystemPaths.TransientPilotInformation); //this filepath needs to be initialized somehow.
 
             JArray jsonArray = JArray.Parse(jsonholder);
 

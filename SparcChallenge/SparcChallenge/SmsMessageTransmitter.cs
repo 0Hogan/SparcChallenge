@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 
-namespace SparcChallenge
+namespace SPARC_CHALLENGE
 {
     class SmsMessageTransmitter : MessageTransmitter
     {
@@ -67,8 +67,8 @@ namespace SparcChallenge
             // Get the current on-duty security officer's phone number.
             securityOfficerNumber = Environment.GetEnvironmentVariable("ON_DUTY_SECURITY_OFFICER_NUMBER");
 
-            string pilotRejectionMessage = "";
-            string securityOfficerRejectionMessage = "";
+            string pilotRejectionMessage = "Not Authorized for Flight Profile";
+            string securityOfficerRejectionMessage = "User tried to access unauthorized flight profile";
 
             // Notify the pilot that their attempt to access the aircraft/mission was rejected and that they are unauthorized.
             SendMessage(pilotNumber, pilotRejectionMessage);

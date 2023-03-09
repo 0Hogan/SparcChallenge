@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SparcChallenge
+namespace SPARC_CHALLENGE
 {
-    class LockoutCounter
+    public class LockoutCounter
     {
         private int counter = 0;
 

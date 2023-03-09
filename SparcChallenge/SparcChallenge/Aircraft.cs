@@ -44,7 +44,30 @@ namespace SPARC_CHALLENGE
 
 
         }
+        public bool inFleet(string AC)
+        {
+            string json = FileProcessor.ProcessFile(SystemPaths.FleetFile);
+            //search json data
+            //parse json data to object
+            //JObject jsonObject = JObject.Parse(json);
 
+
+            JArray jsonArray = JArray.Parse(json);
+
+
+            //find smallest in array
+            foreach (JObject obj in jsonArray)
+            {
+                string stringValue = obj.Value<string>("A/C Fleet");
+
+                //if smallest value is null or current is smaller update
+                if (AC == stringValue)
+                {
+                    return true; //ac is in fleet
+                }
+            }
+            return false;//ac not in fleet
+        }
         private string FindLeader(string FilePath)
         {
             string smallestValue = null;

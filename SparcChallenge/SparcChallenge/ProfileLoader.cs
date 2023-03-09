@@ -51,8 +51,11 @@ namespace SPARC_CHALLENGE
 
         public void Load(Aircraft AC)
         {
-
-
+            SmsMessageTransmitter smsMessageTransmitter;
+            if (AC.Leader)
+            {
+                smsMessageTransmitter = new SmsMessageTransmitter();
+            }
  
 
             if (this.pilot.counter.IsLocked)  //locked out of attempts, not authorized to fly.
@@ -60,7 +63,8 @@ namespace SPARC_CHALLENGE
                 if (AC.Leader)
                 {
                     Console.WriteLine("Not authorized to fly, locked out.");
-                    //notify security officer
+                    //notify security officer and user
+                    smsMessageTransmitter.SendRejection(this.pilot.pilot);
                 }
                 
                 return;
@@ -75,12 +79,13 @@ namespace SPARC_CHALLENGE
                 {
                     //notify security officer
                     Console.WriteLine("not authorized to fly.");
+                    smsMessageTransmitter.SendRejection(this.pilot.pilot);
                 } 
                                    
 
                 this.pilot.Increment(); //not authorized so Increment counter
                 return;
-                //exit
+               
             }
             else
             {
@@ -89,13 +94,14 @@ namespace SPARC_CHALLENGE
                 if(AC.Leader == true)
                 {
                     Console.WriteLine("authorized to fly.");
+                    smsMessageTransmitter.SendConfirmation(this.pilot.pilot);
                 }
                     
                 //load profile
                 if(AC.ID == this.aircraft)
                 {
                     Console.WriteLine("FLYING");
-                    //load profile to system
+                    //load profile to system aka output data to systemprofileconfig.txt
                 }
                 this.pilot.Reset();
             }
