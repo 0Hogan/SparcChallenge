@@ -8,7 +8,7 @@ namespace SPARC_CHALLENGE
 {
     public class Aircraft
     {
-        //have connection to sending notifications?? since the AC is the one that sends the message, before sending it could check if leader if not then wont send.
+       
         internal string ID { get; private set; }
         internal bool Leader { get; private set; }
         internal bool Available { get; private set; }
@@ -48,19 +48,15 @@ namespace SPARC_CHALLENGE
         {
             string json = FileProcessor.ProcessFile(SystemPaths.FleetFile);
             //search json data
-            //parse json data to object
-            //JObject jsonObject = JObject.Parse(json);
-
-
+            
             JArray jsonArray = JArray.Parse(json);
 
 
-            //find smallest in array
+    
             foreach (JObject obj in jsonArray)
             {
                 string stringValue = obj.Value<string>("A/C Fleet");
 
-                //if smallest value is null or current is smaller update
                 if (AC == stringValue)
                 {
                     return true; //ac is in fleet
@@ -74,10 +70,7 @@ namespace SPARC_CHALLENGE
             //get json data
             string json = FileProcessor.ProcessFile(FilePath);
             //search json data
-            //parse json data to object
-            //JObject jsonObject = JObject.Parse(json);
-
-
+            
             JArray jsonArray = JArray.Parse(json);
 
             
@@ -108,6 +101,7 @@ namespace SPARC_CHALLENGE
             return aircraftId;
         }
 
+        /*
         private string ReadFleetFromFile(string filePath)
         {
             // Read the contents of the file
@@ -117,7 +111,7 @@ namespace SPARC_CHALLENGE
             string aircraftId = fileContent.Trim();
 
             return aircraftId;
-        }
+        }*/
     }
 
 }

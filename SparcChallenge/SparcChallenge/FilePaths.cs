@@ -13,14 +13,30 @@ namespace SPARC_CHALLENGE
         internal string TransientPilotInformation { get; private set; }
         internal string FleetFile { get; private set; }
         internal string CurrentSystem { get; private set; }
-
+        internal string IntelligenceModule { get; private set; }
         public FilePaths()
         {
             ExternalDriveFile = FindExternal(); //find the external drive, this is necessary to then determine if the system is unavailable.
-            AuthorizationFile = "C:/Users/micha/Documents/SPARC/SPARCAuthorization.xlsx";
-            TransientPilotInformation = "C:/Users/micha/Documents/SPARC/TransientPilotInformation.csv";
-            FleetFile = "C:/Users/micha/Documents/SPARC/FleetData.xlsx";
-            CurrentSystem = "C:/Users/micha/Documents/SPARC/ACID.txt"; 
+
+            string Initpath = "ACInitFiles.txt";
+
+            //path for Transient
+            string tempTransient = "TransientPilotInformation.csv";
+          
+            //read first four lines
+            string[] lines = File.ReadAllLines(Initpath);
+            
+
+            AuthorizationFile = lines[0];
+        
+            TransientPilotInformation = tempTransient;
+            FleetFile = lines[1];
+            CurrentSystem = lines[2];
+            if (!Directory.Exists(lines[3]))
+            {
+                Directory.CreateDirectory(lines[3]);
+            }
+            IntelligenceModule = lines[3];
         }
         
 

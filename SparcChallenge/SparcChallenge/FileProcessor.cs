@@ -24,7 +24,7 @@ namespace SPARC_CHALLENGE
                     break;
                 case ".csv":
                     return ProcessCSV(filePath);
-                //add support for csv
+                
                 //add support for other file types here
                 default:
                     throw new ArgumentException($"Unsupported file type: {extension}");
@@ -41,7 +41,7 @@ namespace SPARC_CHALLENGE
             List<Dictionary<string,string>> list = new List<Dictionary<string,string>>();
 
             //loop through each row
-            for (int i = 1; i < headers.Length; i++)
+            for (int i = 1; i < csvLines.Length; i++)
             {
                 //split row into fields
                 string[] fields = csvLines[i].Split(',');

@@ -13,8 +13,10 @@ class Program
         
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-        //decode message body
+        //decode message body "Aircraft; mission"
 
+        string mission = "ISR";
+        string ACReq = "F-16 F33";
 
 
         //do initialization
@@ -22,28 +24,28 @@ class Program
 
         //initialize pilot
         //Varpilot = pilots(number);
-        Pilot varpilot = new Pilot("+13167229472");
-        string tempACreq = "F-35 F33";
+        Pilot varpilot = new Pilot("+13167274699", AC);
+        
 
 
         //if target ac is unavailable
-        if (AC.Leader && !AC.inFleet(tempACreq))    //ac is not in the fleet and therefore unavailable
+        if (AC.Leader && !AC.inFleet(ACReq))    //ac is not in the fleet and therefore unavailable
         {
             SmsMessageTransmitter smsMessageTransmitter = new SmsMessageTransmitter();
             smsMessageTransmitter.SendFailure(varpilot.pilot);
-            Console.WriteLine("unavailable");
+            //Console.WriteLine("unavailable");
             //will still need to update the lockout procedure even if the ac is unavailable.
-        }else if(tempACreq==AC.ID && !AC.Available)
+        }else if(ACReq==AC.ID && !AC.Available)
         {
             SmsMessageTransmitter smsMessageTransmitter = new SmsMessageTransmitter();
             smsMessageTransmitter.SendFailure(varpilot.pilot);
-            Console.WriteLine("unavailable");
+            //Console.WriteLine("unavailable");
             //will still need to update the lockout procedure even if the ac is unavailable.
         }
 
 
 
-        ProfileLoader loader = new ProfileLoader(varpilot, /*mission*/"ISR", AC.ID);
+        ProfileLoader loader = new ProfileLoader(varpilot, mission, ACReq);
         loader.Load(AC);
 
     }

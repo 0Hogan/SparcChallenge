@@ -37,5 +37,10 @@ namespace SPARC_CHALLENGE
         /// Returns whether the LockoutCounter is locked (i.e. whether there have been 3 or more unsuccessful attempts in a row)
         /// </summary>
         public bool IsLocked { get { return counter > 2; } }
+
+        public int NumLock()
+        {
+            return counter;
+        }
     }
 }

@@ -23,10 +23,12 @@ namespace SPARC_CHALLENGE
         public SmsMessageTransmitter() 
         {
             // Get the Twilio API details from the environment.
-            accountSid = "AC93aa7249071b09e2c0bd29fd40649166";
-            authToken = "b902534faef8d10361c344f45969b974";
-            sourceNumber = "+13164459368";
+            accountSid = "AC1f51f139fc6952500072981e333660d2";
+            authToken = "1373310943acec5209b53ea53d65210e";
+            sourceNumber = "+15675571239";
             TwilioClient.Init(accountSid, authToken);
+
+                //var validationRequest = ValidationRequestResource.Create(friendlyName: "My Home Phone Number",phoneNumber: new Twilio.Types.PhoneNumber("+13168825948") );
         }
 
         private void SendMessage(string number, string messageContents)
@@ -50,7 +52,7 @@ namespace SPARC_CHALLENGE
         /// <param name="pilotNumber">The number of the pilot to whom the confirmation message should be sent.</param>
         public void SendConfirmation(string pilotNumber)
         {
-            string pilotConfirmationMessage = "";
+            string pilotConfirmationMessage = "Authorized To Fly";
             // Notify the pilot that their profile has been successfully loaded and that they are authorized to proceed.
             SendMessage(pilotNumber, pilotConfirmationMessage);
             
@@ -65,7 +67,7 @@ namespace SPARC_CHALLENGE
         public void SendRejection(string pilotNumber)
         {
             // Get the current on-duty security officer's phone number.
-            securityOfficerNumber = Environment.GetEnvironmentVariable("ON_DUTY_SECURITY_OFFICER_NUMBER");
+            securityOfficerNumber = "+13167274699";//Environment.GetEnvironmentVariable("ON_DUTY_SECURITY_OFFICER_NUMBER");
 
             string pilotRejectionMessage = "Not Authorized for Flight Profile";
             string securityOfficerRejectionMessage = "User tried to access unauthorized flight profile";
