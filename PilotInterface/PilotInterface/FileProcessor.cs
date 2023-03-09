@@ -24,7 +24,7 @@ namespace PilotVerification
                     break;
                 case ".csv":
                     return ProcessCSV(filePath);
-                //add support for csv
+
                 //add support for other file types here
                 default:
                     throw new ArgumentException($"Unsupported file type: {extension}");
@@ -38,19 +38,19 @@ namespace PilotVerification
             string[] headers = csvLines[0].Split(',');
 
             //create list for rows
-            List<Dictionary<string,string>> list = new List<Dictionary<string,string>>();
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
 
             //loop through each row
-            for (int i = 1; i < headers.Length; i++)
+            for (int i = 1; i < csvLines.Length; i++)
             {
                 //split row into fields
                 string[] fields = csvLines[i].Split(',');
 
                 //create dictionary to hold field values
-                Dictionary<string,string> row = new Dictionary<string,string>();
+                Dictionary<string, string> row = new Dictionary<string, string>();
 
                 //loop through each field in row
-                for(int j = 0; j < headers.Length; j++)
+                for (int j = 0; j < headers.Length; j++)
                 {
                     row.Add(headers[j], fields[j]);
                 }
@@ -64,7 +64,7 @@ namespace PilotVerification
             return json;
         }
 
-            private static string ProcessExcel(string filePath)
+        private static string ProcessExcel(string filePath)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -94,7 +94,7 @@ namespace PilotVerification
 
             //call the process function with the cellValues array
             return ProcessExcelToJson(cellValues);
-            
+
         }
 
         static string ProcessExcelToJson(object[,] cellValues)

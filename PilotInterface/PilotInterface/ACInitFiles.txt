@@ -1,0 +1,4 @@
+C:/Users/micha/Documents/SPARC/SPARCAuthorization.xlsx
+C:/Users/micha/Documents/SPARC/FleetData.xlsx
+C:/Users/micha/Documents/SPARC/ACID.txt
+C:/Users/micha/Documents/SPARC/IntelligenceModule/

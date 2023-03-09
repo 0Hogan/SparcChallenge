@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using PilotVerification;
+using Twilio;
 
 namespace PilotVerification
 {
@@ -27,26 +28,68 @@ namespace PilotVerification
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
+            //decode message body "Aircraft; mission"
+
+            string mission;
+            string ACReq;
+
             //do initialization
             Aircraft AC = new Aircraft();
 
-            //initialize & create pilot array. Create a dictionary of pilots for easier lookup
+            //decipher message
+            string[] partition = messageBody.Split(';');
 
-            //create a dictionary of pilots
-            Dictionary<string, Pilot> pilots = new Dictionary<string, Pilot>();
+            if (partition.Length > 0)
+            {
+                mission = partition[1];
+                ACReq = partition[0];
 
-            //recieve message 
+            }
+            else
+            {
+                if (AC.Leader)
+                {
+                    SmsMessageTransmitter smsMessageTransmitter = new SmsMessageTransmitter();
+                    smsMessageTransmitter.SendFailure(pilotPhoneNumber);
+                }
+                return;
+            }
 
-            //if not in dictionary then 
-            //pilots.add(number, new pilot(number));
+           
 
+            //initialize pilot
             //Varpilot = pilots(number);
-            //Pilot varpilot = new Pilot("+13167229472");
-            Pilot varpilot = new Pilot(pilotPhoneNumber);
+            Pilot varpilot = new Pilot(pilotPhoneNumber, AC);
 
-            ProfileLoader loader = new ProfileLoader(varpilot, /*mission*/"ISR", AC.ID);
+
+
+            //if target ac is unavailable
+            if (AC.Leader && !AC.inFleet(ACReq))    //ac is not in the fleet and therefore unavailable
+            {
+                SmsMessageTransmitter smsMessageTransmitter = new SmsMessageTransmitter();
+                smsMessageTransmitter.SendFailure(varpilot.pilot);
+                
+                //will still need to update the lockout procedure even if the ac is unavailable.
+            }
+            else if (ACReq == AC.ID && !AC.Available)
+            {
+                SmsMessageTransmitter smsMessageTransmitter = new SmsMessageTransmitter();
+                smsMessageTransmitter.SendFailure(varpilot.pilot);
+                
+                //will still need to update the lockout procedure even if the ac is unavailable.
+            }
+
+
+
+            ProfileLoader loader = new ProfileLoader(varpilot, mission, ACReq);
             loader.Load(AC);
 
+            string accountSid = "AC93aa7249071b09e2c0bd29fd40649166";
+            string authToken = "b902534faef8d10361c344f45969b974";
+            string systemNumber = "+13164459368";
+            TwilioClient.Init(accountSid, authToken);
+
+            return;
         }
     }
 }

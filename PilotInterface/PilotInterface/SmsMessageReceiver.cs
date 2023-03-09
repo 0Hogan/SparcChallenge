@@ -1,6 +1,7 @@
 ﻿using PilotVerification;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace PilotInterface
         private string authToken = "";
         private string systemNumber = "";
         private MessageResource? lastMessage = null;
+        
 
         /// <summary>
         /// Constructor for the SmsMessageReceiver class.
@@ -37,7 +39,8 @@ namespace PilotInterface
         {
             try
             {
-                var message = MessageResource.Read(limit: 1).First();
+                TwilioClient.Init(accountSid, authToken);
+                var message = MessageResource.Read(limit: 1).FirstOrDefault();
 
                 if (lastMessage == null || lastMessage.Sid != message.Sid)
                 {
@@ -46,16 +49,19 @@ namespace PilotInterface
                     var messageBody = message.Body; // Message body, which contains the aircraft and mission specifications.
 
                     // Replace this with a call to start the Pilot Verification Process thread.
-                    Console.Write("Message sent from: ");
-                    Console.WriteLine(pilotNumber);
-                    Console.Write("Body: ");
-                    Console.WriteLine(messageBody);
+                   // Console.Write("Message sent from: ");
+                   // Console.WriteLine(pilotNumber);
+                   // Console.Write("Body: ");
+                   // Console.WriteLine(messageBody);
+
+                    lastMessage = message;
 
                     PilotAuthorizer authorizer = new PilotAuthorizer();
                     Task.Factory.StartNew(() => authorizer.CheckAuthorization(pilotNumber.ToString(), systemNumber, messageBody));
 
-                    // Update lastMessage with the most recent message.
-                    lastMessage = message;
+                    System.Threading.Thread.Sleep(3000);
+
+                 //  Console.Write("finished waiting");
                 }
             }
             catch

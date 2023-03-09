@@ -15,7 +15,7 @@ namespace PilotVerification
         private string authToken = "";
         private string sourceNumber = "";
 
-        private string securityOfficerNumber = "+13166403501";
+        private string securityOfficerNumber = "+13167274699";//"+13166403501";
 
         /// <summary>
         /// Constructor for the SmsMessageTransmitter class. 
@@ -23,9 +23,9 @@ namespace PilotVerification
         public SmsMessageTransmitter() 
         {
             // Get the Twilio API details from the environment.
-            accountSid = "AC93aa7249071b09e2c0bd29fd40649166";
-            authToken = "b902534faef8d10361c344f45969b974";
-            sourceNumber = "+13164459368";
+            accountSid = "AC1f51f139fc6952500072981e333660d2";
+            authToken = "1373310943acec5209b53ea53d65210e";
+            sourceNumber = "+15675571239";
             TwilioClient.Init(accountSid, authToken);
         }
 
@@ -50,7 +50,7 @@ namespace PilotVerification
         /// <param name="pilotNumber">The number of the pilot to whom the confirmation message should be sent.</param>
         public void SendConfirmation(string pilotNumber)
         {
-            string pilotConfirmationMessage = "";
+            string pilotConfirmationMessage = "Authorized to Fly";
             // Notify the pilot that their profile has been successfully loaded and that they are authorized to proceed.
             SendMessage(pilotNumber, pilotConfirmationMessage);
             
@@ -65,10 +65,10 @@ namespace PilotVerification
         public void SendRejection(string pilotNumber)
         {
             // Get the current on-duty security officer's phone number.
-            securityOfficerNumber = Environment.GetEnvironmentVariable("ON_DUTY_SECURITY_OFFICER_NUMBER");
+            //securityOfficerNumber = Environment.GetEnvironmentVariable("ON_DUTY_SECURITY_OFFICER_NUMBER");
 
-            string pilotRejectionMessage = "";
-            string securityOfficerRejectionMessage = "";
+            string pilotRejectionMessage = "Not Authorized to Fly";
+            string securityOfficerRejectionMessage = "Unauthorized person tried to access system";
 
             // Notify the pilot that their attempt to access the aircraft/mission was rejected and that they are unauthorized.
             SendMessage(pilotNumber, pilotRejectionMessage);
@@ -85,7 +85,7 @@ namespace PilotVerification
         /// <param name="pilotNumber"></param>
         public void SendFailure(string pilotNumber)
         {
-            string pilotFailureMessage = "";
+            string pilotFailureMessage = "Failed to Load";
 
             // Notify the pilot that their profile failed to load.
             SendMessage(pilotNumber, pilotFailureMessage);
