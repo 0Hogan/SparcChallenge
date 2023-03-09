@@ -15,6 +15,7 @@ namespace PilotInterface
         private string authToken = "";
         private string systemNumber = "";
         private MessageResource? lastMessage = null;
+        
         /// <summary>
         /// Constructor for the SmsMessageReceiver class.
         /// </summary>
@@ -28,24 +29,34 @@ namespace PilotInterface
             lastMessage = MessageResource.Read(limit: 1).First();
         }
 
+        /// <summary>
+        /// Monitors the given account for any new messages and starts a Pilot Verification thread if a message is received.
+        /// </summary>
         public void ReceiveMessage()
         {
-            var message = MessageResource.Read(limit:1).First();
-
-            if (lastMessage == null || lastMessage.Sid != message.Sid)
+            try
             {
+                var message = MessageResource.Read(limit: 1).First();
 
-                var pilotNumber = message.From;
-                var messageBody = message.Body;
+                if (lastMessage == null || lastMessage.Sid != message.Sid)
+                {
 
+                    var pilotNumber = message.From; // The pilot sent the request, so use the number associated with the request.
+                    var messageBody = message.Body; // Message body, which contains the aircraft and mission specifications.
 
-                // Replace this with a call to start the Pilot Verification Process thread.
-                Console.Write("Message sent from: ");
-                Console.WriteLine(pilotNumber);
-                Console.Write("Body: ");
-                Console.WriteLine(messageBody);
+                    // Replace this with a call to start the Pilot Verification Process thread.
+                    Console.Write("Message sent from: ");
+                    Console.WriteLine(pilotNumber);
+                    Console.Write("Body: ");
+                    Console.WriteLine(messageBody);
 
-                lastMessage = message;
+                    // Update lastMessage with the most recent message.
+                    lastMessage = message;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Encountered some error. Continuing on.");
             }
         }
 
