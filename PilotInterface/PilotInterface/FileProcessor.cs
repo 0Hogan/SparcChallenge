@@ -9,7 +9,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Text.Json;
 
-namespace SPARC_CHALLENGE
+namespace PilotVerification
 {
     public static class FileProcessor
     {

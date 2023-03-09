@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 
-namespace SparcChallenge
+namespace PilotVerification
 {
     class SmsMessageTransmitter : MessageTransmitter
     {

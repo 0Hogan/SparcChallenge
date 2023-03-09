@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 
-namespace SPARC_CHALLENGE
+namespace PilotVerification
 {
 
 
@@ -55,7 +55,7 @@ namespace SPARC_CHALLENGE
 
  
 
-            if (this.pilot.counter.IsLocked)  //locked out of attempts, not authorized to fly.
+            if (this.pilot.LockedOut)  //locked out of attempts, not authorized to fly.
             {
                 if (AC.Leader)
                 {

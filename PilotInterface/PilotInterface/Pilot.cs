@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SPARC_CHALLENGE
+namespace PilotVerification
 {
     public class Pilot
     {
         public string pilot;
-        public LockoutCounter counter;
+        private LockoutCounter counter;
+
+        public bool LockedOut { get { return counter.IsLocked; } }
+
         public Pilot(string pilot) //we can either give it a lockout counter or have it create a lockout counter
         {
             this.pilot = pilot; //set pilot

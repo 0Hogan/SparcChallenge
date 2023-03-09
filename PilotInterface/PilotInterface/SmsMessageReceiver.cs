@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PilotVerification;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,9 @@ namespace PilotInterface
         private string authToken = "";
         private string systemNumber = "";
         private MessageResource? lastMessage = null;
-        
+
+        private string executableFilePath = "";
+
         /// <summary>
         /// Constructor for the SmsMessageReceiver class.
         /// </summary>
@@ -49,6 +52,9 @@ namespace PilotInterface
                     Console.WriteLine(pilotNumber);
                     Console.Write("Body: ");
                     Console.WriteLine(messageBody);
+
+                    PilotAuthorizer authorizer = new PilotAuthorizer();
+                    Task.Factory.StartNew(() => authorizer.CheckAuthorization(pilotNumber.ToString(), systemNumber, messageBody));
 
                     // Update lastMessage with the most recent message.
                     lastMessage = message;
