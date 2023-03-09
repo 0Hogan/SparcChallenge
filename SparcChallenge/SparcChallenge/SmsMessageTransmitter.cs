@@ -15,18 +15,18 @@ namespace SparcChallenge
         private string authToken = "";
         private string sourceNumber = "";
 
-        private string securityOfficerNumber = "";
+        private string securityOfficerNumber = "+13166403501";
 
         /// <summary>
-        /// Constructor for the SmsMessageTransmitter class. Does nothing by default.
+        /// Constructor for the SmsMessageTransmitter class. 
         /// </summary>
         public SmsMessageTransmitter() 
         {
             // Get the Twilio API details from the environment.
-            accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-            authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
-            sourceNumber = Environment.GetEnvironmentVariable("TWILIO_SOURCE_NUMBER");
-
+            accountSid = "AC93aa7249071b09e2c0bd29fd40649166";
+            authToken = "b902534faef8d10361c344f45969b974";
+            sourceNumber = "+13164459368";
+            TwilioClient.Init(accountSid, authToken);
         }
 
         private void SendMessage(string number, string messageContents)
@@ -36,11 +36,9 @@ namespace SparcChallenge
                 return;
 
             // Send the given message to the given number.
-            TwilioClient.Init(accountSid, authToken);
-
             var message = MessageResource.Create(
                 body: messageContents,
-                from: new Twilio.Types.PhoneNumber("+15017122661"),
+                from: new Twilio.Types.PhoneNumber(sourceNumber),
                 to: new Twilio.Types.PhoneNumber(number)
             );
 
