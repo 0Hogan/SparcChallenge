@@ -13,14 +13,14 @@ namespace SPARC_CHALLENGE
 {
     public static class FileProcessor
     {
-        public static void ProcessFile(string filePath)
+        public static string ProcessFile(string filePath)
         {
             string extension = Path.GetExtension(filePath);
 
             switch (extension)
             {
                 case ".xlsx":
-                    ProcessExcel(filePath);
+                    return ProcessExcel(filePath);
                     break;
                 //add support for other file types here
                 default:
@@ -28,7 +28,7 @@ namespace SPARC_CHALLENGE
             }
         }
 
-        private static void ProcessExcel(string filePath)
+        private static string ProcessExcel(string filePath)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -57,10 +57,11 @@ namespace SPARC_CHALLENGE
             }
 
             //call the process function with the cellValues array
-            ProcessExcelToJson(cellValues);
+            return ProcessExcelToJson(cellValues);
+            
         }
 
-        static void ProcessExcelToJson(object[,] cellValues)
+        static string ProcessExcelToJson(object[,] cellValues)
         {
             List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
 
@@ -85,7 +86,8 @@ namespace SPARC_CHALLENGE
             }
 
             string json = JsonConvert.SerializeObject(rowData, Formatting.Indented);
-            Console.WriteLine(json);
+            //Console.WriteLine(json);
+            return json;
         }
     }
 }
